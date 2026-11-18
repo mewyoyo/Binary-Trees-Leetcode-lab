@@ -9,7 +9,7 @@ class Solution {
         if (root.left != null && root.left.left == null && root.left.right == null) {
             sum += root.left.val;
         } else {
-            // Если не лист — спускаемся глубже влево
+
             sum += sumOfLeftLeaves(root.left);
         }
 
