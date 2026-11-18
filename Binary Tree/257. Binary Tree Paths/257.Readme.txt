@@ -1,0 +1,28 @@
+257. Binary Tree Paths
+
+1. Problem
+Given the root of a binary tree, return all root-to-leaf paths in any order (where a leaf is a node with no children).
+
+2. Approach
+Use Depth-First Search (DFS) recursion to traverse from the root down to every leaf while passing the accumulated path string:
+- Base case: If the current node is null, return.
+- Leaf check: If node.left is null and node.right is null, append node.val (without "->") to the current path and add it to the result list.
+- Recursive step: Append node.val + "->" to the path and recursively call dfs on node.left and node.right.
+
+Challenges Faced & Failed Approaches
+1. Unfamiliarity with the dfs helper naming convention and StringBuilder (sb)
+- Mistake / Confusion: Feeling stuck upon seeing dfs(...) as the helper method name and StringBuilder sb with sb.setLength(len) in the optimized approach, assuming they were entirely new Java mechanics.
+- Why it was confusing: dfs (Depth-First Search) is simply a general naming convention for the same recursive traversal helper used in earlier problems (such as inorder or preorder), whereas StringBuilder is a single shared mutable buffer that requires manually rolling back its length (setLength(len)) after exploring a branch so characters from one path do not bleed into sibling paths.
+- Fix: Understood that dfs is just the recursive helper function, and relied on immutable String concatenation first (which naturally creates an independent path copy per recursive call) before applying StringBuilder with length rollback for optimization.
+
+3. Time Complexity
+Time Complexity: O(n^2)
+- Visiting all n nodes takes O(n) time, and copying/building path strings of length up to n at each node or leaf takes O(n) in the worst case (skewed tree).
+
+Space Complexity: O(n)
+- O(n) in the worst case (skewed tree) and O(log n) on average (balanced tree) due to the recursion call stack (excluding the space required for the output list).
+
+4. Reflection / Improvement
+- Is there a better approach? Using a mutable StringBuilder with backtracking (sb.setLength(len)) avoids allocating intermediate String objects at every node, significantly reducing memory overhead compared to standard String concatenation.
+- Alternative: Iterative DFS (using a Stack of nodes paired with path strings) or BFS (using a Queue) solves the problem iteratively without recursion stack overhead.
+- Best Complexity: O(n^2) Time (worst case for string construction), O(n) Auxiliary Space.

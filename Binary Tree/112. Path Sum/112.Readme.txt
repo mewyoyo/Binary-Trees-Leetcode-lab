@@ -1,0 +1,29 @@
+112. Path Sum
+
+1. Problem
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum (where a leaf is a node with no children).
+
+2. Approach
+Use Depth-First Search (DFS) recursion by subtracting each node's value from targetSum as we traverse down the tree:
+- Base case 1: If root is null, return false.
+- Base case 2 (Leaf check): If root.left is null and root.right is null, return targetSum == root.val.
+- Recursive step: Calculate remainingSum = targetSum - root.val and return hasPathSum(root.left, remainingSum) || hasPathSum(root.right, remainingSum).
+
+Challenges Faced & Failed Approaches
+1. Issues with updating and passing the remaining sum (int remainingSum = targetSum - root.val; return hasPathSum(root.left, remainingSum) || hasPathSum(root.right, remainingSum);)
+- Mistake: Confusion around updating the target value at each recursive step (such as passing the unchanged targetSum instead of remainingSum, or adding root.val instead of subtracting it) and combining the left and right recursive calls (such as using && instead of || or not immediately returning the combined boolean expression).
+- Why it failed: Passing an unreduced targetSum prevented the leaf condition (targetSum == root.val) from ever matching the full path sum, while using && required every branch in the tree to equal targetSum instead of just finding one valid root-to-leaf path.
+- Fix: Computed remainingSum = targetSum - root.val before recursing and used logical OR (||) so that finding even a single valid leaf path bubbles true all the way back up to the root.
+
+3. Time Complexity
+Time Complexity: O(n)
+- In the worst case, each of the n nodes in the tree is visited once.
+
+Space Complexity: O(n)
+- O(n) in the worst case (skewed tree) and O(log n) on average (balanced tree) due to the recursion call stack.
+
+4. Reflection / Improvement
+- Is there a better approach? Recursive DFS is optimal and the cleanest way to solve this problem in O(n) time.
+- Alternative: Iterative DFS (using a Stack of nodes paired with remaining sums) or BFS (using a Queue) achieves the same O(n) time and O(n) space without recursion stack overhead.
+- Edge case note: Because node values and targetSum can be negative, traversal cannot stop early when remainingSum <= 0 before reaching an actual leaf node.
+- Best Complexity: O(n) Time, O(n) Space (worst case) / O(log n) Space (balanced).

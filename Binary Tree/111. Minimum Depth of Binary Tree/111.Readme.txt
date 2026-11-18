@@ -1,0 +1,34 @@
+111. Minimum Depth of Binary Tree
+
+1. Problem
+Given a binary tree, find its minimum depth (the number of nodes along the shortest path from the root node down to the nearest leaf node, where a leaf is a node with no children).
+
+2. Approach
+Use Depth-First Search (DFS) recursion with special handling for nodes that have only one child:
+- Base case: If root is null, return 0.
+- Single-child cases: If root.left is null, return 1 + minDepth(root.right). If root.right is null, return 1 + minDepth(root.left).
+- Both children exist: Recursively find leftDepth and rightDepth, then return 1 + Math.min(leftDepth, rightDepth).
+
+Tracing Example (root = [2, null, 3, null, 4, null, 5, null, 6])
+- Start at root 2: left child is null, so recurse only to the right child (3).
+- Nodes 3, 4, and 5: left child is null at each step, continuing down the right branch.
+- Leaf node 6: left is null (returns 0), right is null -> returns 1.
+- Unwinding the call stack adds 1 at each ancestor (5 -> 4 -> 3 -> 2) -> returns 5.
+- Result: 5.
+
+Challenges Faced & Failed Approaches
+1. Falling into the trap of copying the Maximum Depth (Problem 104) template directly
+- Mistake: Assuming the code would be almost identical to Maximum Depth by simply replacing Math.max with Math.min in return 1 + Math.min(leftDepth, rightDepth).
+- Why it failed: When a node has only one child (for example, left is null and right exists), the null side returns 0. Taking Math.min(0, rightDepth) treats the missing null branch as a valid leaf and stops early with depth 1, instead of continuing down the existing child to find a real leaf node.
+- Fix: Added explicit checks (if (root.left == null) and if (root.right == null)) so that if one branch is missing, the recursion is forced to follow the non-null child.
+
+3. Time Complexity
+Time Complexity: O(n)
+- In the worst case (a skewed tree), every node in the tree of size n is visited once.
+
+Space Complexity: O(n)
+- O(n) in the worst case (skewed tree) and O(log n) on average (balanced tree) due to the recursion call stack.
+
+4. Reflection / Improvement
+- Is there a better approach? Breadth-First Search (BFS) using a Queue is often more efficient in practice for minimum depth because it traverses level-by-level and returns immediately as soon as it encounters the first leaf node, without exploring deeper branches.
+- Best Complexity: O(n) Time, O(n) Space (worst case) / O(log n) Space (balanced).

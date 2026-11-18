@@ -1,0 +1,29 @@
+617. Merge Two Binary Trees
+
+1. Problem
+Given two binary trees root1 and root2, merge them into a new binary tree by overlapping them starting from the roots. If two nodes overlap, sum their values as the new node's value; otherwise, use the non-null node. Return the merged tree.
+
+2. Approach
+Use Depth-First Search (DFS) recursion to traverse both trees simultaneously:
+- Base cases: If root1 is null, return root2 (which attaches the rest of root2's subtree, or returns null if root2 is also null). If root2 is null, return root1.
+- Merge overlapping nodes: Create a new TreeNode with the value root1.val + root2.val.
+- Recursive step: Recursively merge the left subtrees (mergeTrees(root1.left, root2.left)) and right subtrees (mergeTrees(root1.right, root2.right)), attaching them to the new node.
+- Return the newly created merged node.
+
+Challenges Faced & Failed Approaches
+1. Understanding the base case shortcut (if (root1 == null) return root2; if (root2 == null) return root1;)
+- Mistake / Confusion: Unclear why returning root2 when root1 is null works without continuing to traverse down root2, and how the case where both nodes are null is handled.
+- Why it was confusing: Viewing a TreeNode purely as a single integer value rather than a reference to an entire subtree. When one tree ends (becomes null), there are no overlapping nodes left in that branch, so the remaining subtree of the other tree can be attached directly as-is. Additionally, if both root1 and root2 are null, returning root2 naturally returns null.
+- Fix: Recognized that a TreeNode reference carries its entire descendant subtree, allowing recursion to stop early as soon as either tree hits null.
+
+3. Time Complexity
+Time Complexity: O(min(m, n))
+- Where m and n are the number of nodes in root1 and root2. Recursion only traverses nodes where both trees overlap, stopping immediately when either branch reaches null.
+
+Space Complexity: O(min(m, n))
+- O(min(m, n)) in the worst case (skewed trees) and O(log(min(m, n))) on average (balanced trees) due to the recursion call stack.
+
+4. Reflection / Improvement
+- Is there a better approach? Both recursive DFS and iterative BFS run in optimal O(min(m, n)) time since only overlapping nodes need to be visited and summed.
+- Alternative: If modifying the input tree is allowed, you can update root1 in-place (root1.val += root2.val) instead of allocating new TreeNode objects, or solve iteratively using a Queue storing pairs of nodes (Queue<TreeNode[]>).
+- Best Complexity: O(min(m, n)) Time, O(min(m, n)) Space (worst case) / O(log(min(m, n))) Space (balanced).

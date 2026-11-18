@@ -1,0 +1,30 @@
+404. Sum of Left Leaves
+
+1. Problem
+Given the root of a binary tree, return the sum of all left leaves (a node with no children that is the left child of another node).
+
+2. Approach
+Use Depth-First Search (DFS) recursion by checking the left child from the parent node's perspective:
+- Base case: If root is null, return 0.
+- Left child check: If root.left is not null and has no children (root.left.left == null && root.left.right == null), add root.left.val to sum. Otherwise, recursively traverse root.left.
+- Right subtree traversal: Always recursively call sumOfLeftLeaves(root.right), since a right child's subtree can still contain left leaves.
+- Return the accumulated sum.
+
+Challenges Faced & Failed Approaches
+1. Understanding Queue-based BFS traversal and the conditional branch for left children (sum += curr.left.val; } else { queue.offer(curr.left); })
+- Mistake / Confusion: Unfamiliarity with how Queue (offer and poll) traverses a binary tree level-by-level, and confusion over why curr.left is only enqueued inside the else block rather than always being added to the queue.
+- Why it was confusing: Unlike recursion where the call stack manages traversal automatically, BFS requires manually pushing nodes into a FIFO queue to explore deeper levels. If curr.left is already a leaf, adding it to the queue is unnecessary because it has no children left to inspect.
+- Fix: Clarified that Queue processes nodes level-by-level in FIFO order, and separated leaf summation (sum += curr.left.val) from further traversal (queue.offer(curr.left)) so only non-leaf left children are queued for deeper inspection.
+
+3. Time Complexity
+Time Complexity: O(n)
+- Each of the n nodes in the tree is visited once.
+
+Space Complexity: O(n)
+- O(n) in the worst case (skewed tree for DFS recursion stack, or maximum level width for BFS queue) and O(log n) on average for balanced DFS.
+
+4. Reflection / Improvement
+- Is there a better approach? Both recursive DFS and iterative BFS run in optimal O(n) time since every node must be checked to locate all left leaves.
+- Alternative: Instead of checking root.left from the parent node, you can pass a boolean flag (isLeft) into a recursive DFS helper function (e.g., dfs(node, isLeft)) and return node.val when isLeft is true and the node is a leaf.
+- Edge case note: A single-node tree ([1]) returns 0 because the root is not the left child of any parent node.
+- Best Complexity: O(n) Time, O(n) Space (worst case).

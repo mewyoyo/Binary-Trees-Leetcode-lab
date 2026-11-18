@@ -1,0 +1,26 @@
+144. Binary Tree Preorder Traversal
+
+1. Problem
+Given the root of a binary tree, return the preorder traversal of its nodes' values (Root -> Left -> Right).
+
+2. Approach
+Use Depth-First Search (DFS) recursion with a helper method and a result list:
+- Base case: If the current node is null, return.
+- Visit root: Add the current node's value to the list using result.add(node.val).
+- Traverse left: Recursively call preorder(node.left, result).
+- Traverse right: Recursively call preorder(node.right, result).
+
+Challenges Faced & Failed Approaches
+- None. Having already practiced recursive DFS in Binary Tree Inorder Traversal (Problem 94), adjusting the traversal order to Root -> Left -> Right was straightforward and worked smoothly without any errors.
+
+3. Time Complexity
+Time Complexity: O(n)
+- Each of the n nodes in the tree is visited once.
+
+Space Complexity: O(n)
+- O(n) in the worst case (skewed tree) and O(log n) on average (balanced tree) due to the recursion call stack.
+
+4. Reflection / Improvement
+- Is there a better approach? Both recursive DFS and iterative DFS (using an explicit Stack) run in O(n) time and O(n) space.
+- Alternative: In the iterative Stack approach, push the right child before the left child so the left subtree is popped and processed first (LIFO). Morris Traversal can also achieve O(1) extra space.
+- Best Complexity: O(n) Time, O(n) Space (or O(1) Space with Morris Traversal).

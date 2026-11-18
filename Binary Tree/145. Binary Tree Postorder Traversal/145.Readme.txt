@@ -1,0 +1,26 @@
+145. Binary Tree Postorder Traversal
+
+1. Problem
+Given the root of a binary tree, return the postorder traversal of its nodes' values (Left -> Right -> Root).
+
+2. Approach
+Use Depth-First Search (DFS) recursion with a helper method and a result list:
+- Base case: If the current node is null, return.
+- Traverse left: Recursively call postorder(node.left, result).
+- Traverse right: Recursively call postorder(node.right, result).
+- Visit root: Add the current node's value to the list using result.add(node.val).
+
+Challenges Faced & Failed Approaches
+- None. Having already practiced recursive DFS in Inorder (Problem 94) and Preorder (Problem 144) traversals, adjusting the traversal order to Left -> Right -> Root was straightforward and worked on the first attempt without any issues.
+
+3. Time Complexity
+Time Complexity: O(n)
+- Each of the n nodes in the tree is visited once.
+
+Space Complexity: O(n)
+- O(n) in the worst case (skewed tree) and O(log n) on average (balanced tree) due to the recursion call stack.
+
+4. Reflection / Improvement
+- Is there a better approach? Both recursive DFS and iterative DFS run in O(n) time and O(n) space.
+- Alternative: For an iterative Stack solution, perform a modified preorder traversal (Root -> Right -> Left) and insert each node's value at the front of a LinkedList using addFirst() to reverse the output into Left -> Right -> Root. Morris Traversal can also achieve O(1) extra space.
+- Best Complexity: O(n) Time, O(n) Space (or O(1) Space with Morris Traversal).
